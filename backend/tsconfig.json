@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "outDir": "./build",
+        "strict": true,
+        "module": "CommonJS",
+        "esModuleInterop": true,
+    },
+}
