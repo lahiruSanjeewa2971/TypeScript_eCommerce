@@ -1,8 +1,14 @@
 import { Col, Row } from "react-bootstrap";
 import { sampleProducts } from "../data";
-import { Link } from "react-router-dom";
 import { Product } from "../types/Products";
-import React, { useReducer } from "react";
+import { useEffect, useReducer } from "react";
+import { getError } from "../utils";
+import { APIError } from "../types/APIErrors";
+import axios from "axios";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import ProductItem from "../components/ProductItem";
+import { Helmet } from "react-helmet-async";
 
 type State = {
   products: Product[];
@@ -32,7 +38,7 @@ const reducer = (state: State, action: Action) => {
     case "FETCH_REQUEST":
       return { ...state, loading: true };
     case "FETCH_SUCCESS":
-      return { ...state, product: action.payload, loading: false };
+      return { ...state, products: action.payload, loading: false };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
@@ -41,19 +47,41 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function HomePage() {
-  // const [] = useReducer<React.Reducer<State, Action>>()
+  // const [{loading, error, products}, dispatch] = useReducer<
+  //   State, Action
+  // >(reducer, initialState)
+  const [{ loading, error, products }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch({ type: "FETCH_REQUEST" });
+      try {
+        const result = await axios.get("/api/products");
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+      } catch (error) {
+        dispatch({ type: "FETCH_FAIL", payload: getError(error as APIError) });
+      }
+    };
+    fetchData();
+  }, []);
 
-  return (
+  return loading ? (
+    <LoadingBox />
+  ) : error ? (
+    <MessageBox varient="danger">{error}</MessageBox>
+  ) : (
     <Row>
+      {/* Set tab name */}
+      <Helmet>
+        <title>eCommerce</title>
+      </Helmet>
       {/**Row contains 12 parts */}
       {sampleProducts.map((product, index) => (
         <Col key={index} sm={6} md={4} lg={3}>
-          <Link to={"/product/" + product.slug}>
-            <img src={product.image} alt="" className="product-image" />
-            <h2>{product.name}</h2>
-            <p>{product.slug}</p>
-          </Link>
+          <ProductItem product={product} />
         </Col>
       ))}
     </Row>

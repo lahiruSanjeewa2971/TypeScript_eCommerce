@@ -12,8 +12,10 @@ import {
 import HomePage from "./pages/HomePage.tsx";
 import ProductPage from "./pages/ProductPage.tsx";
 import axios from "axios";
+import { HelmetProvider } from "react-helmet-async";
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '/'
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "http://localhost:5000" : "/";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +28,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </StrictMode>
 );
