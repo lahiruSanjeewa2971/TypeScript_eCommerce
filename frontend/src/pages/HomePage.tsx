@@ -1,5 +1,4 @@
 import { Col, Row } from "react-bootstrap";
-import { sampleProducts } from "../data";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import ProductItem from "../components/ProductItem";
