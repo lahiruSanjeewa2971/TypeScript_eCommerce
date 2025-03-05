@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { sampleProducts } from "./data";
 import cors from "cors";
 import mongoose from "mongoose";
+import { productRouter } from "./routers/productRouters";
+import { seedRouter } from "./routers/seedRouter";
 
 dotenv.config();
 
@@ -28,13 +30,8 @@ app.use(
   })
 );
 
-app.get("/api/products", (req: Request, res: Response) => {
-  res.json(sampleProducts);
-});
-
-app.get("/api/products/:slug", (req: Request, res: Response) => {
-  res.json(sampleProducts.find((x) => x.slug === req.params.slug));
-});
+app.use("/api/products", productRouter);
+app.use("/api/seed", seedRouter);
 
 app.listen(PORT, () => {
   console.log(`Server started at port : ${PORT}`);
