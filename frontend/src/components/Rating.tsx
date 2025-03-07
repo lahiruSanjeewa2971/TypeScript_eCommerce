@@ -6,6 +6,7 @@ type Props = {
 
 export default function Rating(props: Props) {
   const { rating, caption, numReviews } = props;
+  console.log(props);
   return (
     <div className="rating">
       <span>
@@ -65,10 +66,14 @@ export default function Rating(props: Props) {
       </span>
       {caption ? (
         <span>{caption}</span>
-      ) : numReviews != 0 ? (
-        <span>{" " + numReviews + " reviews"}</span>
+      ) : numReviews ? (
+        numReviews != 0 ? (
+          <span>{" " + numReviews + " reviews"}</span>
+        ) : (
+          ""
+        )
       ) : (
-        ""
+        <></>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Cart, CartItem, ShippingAddress } from "./types/Cart";
+import { Cart, CartItem } from "./types/Cart";
 
 type AppState = {
   cart: Cart;
@@ -28,6 +28,7 @@ type Action = { type: "CART_ADD_ITEM"; payload: CartItem };
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "CART_ADD_ITEM":
+      console.log('came here in store.')
       const newItem = action.payload;
       const existItem = state.cart.cartItems.find(
         (item: CartItem) => item._id === newItem._id
