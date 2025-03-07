@@ -1,18 +1,32 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { Badge, Container, Nav, Navbar } from "react-bootstrap";
+import { Link, Outlet } from "react-router-dom";
+import { Store } from "./Store";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const {
+    state: { cart },
+  } = useContext(Store);
+
   return (
     <div className="d-flex flex-column vh-100">
+      <ToastContainer position="bottom-center" limit={1} />
       <header>
         <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
             <Navbar.Brand>eCommerce</Navbar.Brand>
           </Container>
           <Nav>
-            <a href="/cart" className="nav-link">
+            <Link to="/cart" className="nav-link">
               Cart
-            </a>
+              {cart.cartItems.length > 0 && (
+                <Badge pill bg="danger">
+                  {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                </Badge>
+              )}
+            </Link>
             <a href="/signin" className="nav-link">
               Sign Up
             </a>
@@ -21,7 +35,7 @@ function App() {
       </header>
       <main>
         <Container className="mt-3">
-          <Outlet/>
+          <Outlet />
         </Container>
       </main>
       <footer>
