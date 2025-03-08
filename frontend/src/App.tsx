@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import { Store } from "./Store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LinkContainer } from "react-router-bootstrap";
 
 function App() {
   const {
@@ -16,7 +17,11 @@ function App() {
       <header>
         <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
-            <Navbar.Brand>eCommerce</Navbar.Brand>
+            {/* <LinkContainer to="/"> */}
+            <Link to="/" className="text-decoration-none">
+              <Navbar.Brand>eCommerce</Navbar.Brand>
+            </Link>
+            {/* </LinkContainer> */}
           </Container>
           <Nav>
             <Link to="/cart" className="nav-link">
