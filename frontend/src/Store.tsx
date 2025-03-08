@@ -23,12 +23,14 @@ const initialState: AppState = {
   },
 };
 
-type Action = { type: "CART_ADD_ITEM"; payload: CartItem };
+type Action =
+  | { type: "CART_ADD_ITEM"; payload: CartItem }
+  | { type: "CART_REMOVE_ITEM"; payload: CartItem };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "CART_ADD_ITEM":
-      console.log('came here in store.')
+      console.log("came here in store.");
       const newItem = action.payload;
       const existItem = state.cart.cartItems.find(
         (item: CartItem) => item._id === newItem._id
@@ -42,6 +44,13 @@ function reducer(state: AppState, action: Action): AppState {
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
       return { ...state, cart: { ...state.cart, cartItems } };
+
+    case "CART_REMOVE_ITEM":
+      const cartItemsNew = state.cart.cartItems.filter(
+        (item: CartItem) => item._id !== action.payload._id
+      );
+      localStorage.setItem("cartItems", JSON.stringify(cartItemsNew));
+      // return { ...state, cart: { ...state.cart, cartItems } };
 
     default:
       return state;
