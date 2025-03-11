@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Product {
-  public _id!: mongoose.Types.ObjectId;
+  public _id?: mongoose.Types.ObjectId;
   //   public _id!: string;
 
   @prop({ required: true })
