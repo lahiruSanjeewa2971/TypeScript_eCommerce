@@ -35,22 +35,25 @@ function reducer(state: AppState, action: Action): AppState {
       const existItem = state.cart.cartItems.find(
         (item: CartItem) => item._id === newItem._id
       );
-      const cartItems = existItem
+      const cartItemsNew = existItem
         ? state.cart.cartItems.map((item: CartItem) =>
             item._id === existItem._id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
 
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(cartItemsNew));
 
-      return { ...state, cart: { ...state.cart, cartItems } };
+      return { ...state, cart: { ...state.cart, cartItems: cartItemsNew } };
 
     case "CART_REMOVE_ITEM":
-      const cartItemsNew = state.cart.cartItems.filter(
+      const filteredCartItems = state.cart.cartItems.filter(
         (item: CartItem) => item._id !== action.payload._id
       );
-      localStorage.setItem("cartItems", JSON.stringify(cartItemsNew));
-      // return { ...state, cart: { ...state.cart, cartItems } };
+      localStorage.setItem("cartItems", JSON.stringify(filteredCartItems));
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: filteredCartItems },
+      };
 
     default:
       return state;
