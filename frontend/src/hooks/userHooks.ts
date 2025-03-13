@@ -20,4 +20,25 @@ export const useSigninMutation = () => {
   });
 };
 
+export const useSignupMutation = () => {
+  return useMutation({
+    mutationFn: async ({
+      name,
+      email,
+      password,
+    }: {
+      name: string;
+      email: string;
+      password: string;
+    }) =>
+      (
+        await apiClient.post<UserInfo>(`api/users/signup`, {
+          name,
+          email,
+          password,
+        })
+      ).data,
+  });
+};
+
 // for UPDATING and DELETE use useMutation
