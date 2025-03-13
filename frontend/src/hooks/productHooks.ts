@@ -16,3 +16,5 @@ export const useGetProductDetailsBySlug = (slug: string) => {
       (await apiClient.get<Product>(`api/products/slug/${slug}`)).data,
   });
 };
+
+// for GET API use useQuery
