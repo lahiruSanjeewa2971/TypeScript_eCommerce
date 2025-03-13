@@ -22,6 +22,6 @@ export type Cart = {
   taxPrice: number;
   totalPrice: number;
   cartItems: CartItem[];
-  shippingAddress: ShippingAddress[];
+  shippingAddress: ShippingAddress;
   paymentMethod: string;
 };
