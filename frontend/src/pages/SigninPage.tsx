@@ -26,6 +26,7 @@ export default function SigninPage() {
     try {
       const data = await signin({ email, password });
       dispatch({ type: "USER_SIGNIN", payload: data });
+      localStorage.setItem("userInfo", JSON.stringify(data));
       navigate(redirect || "/");
     } catch (error) {
       toast.error(getError(error as APIError));
