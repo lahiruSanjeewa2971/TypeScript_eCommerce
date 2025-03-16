@@ -32,6 +32,7 @@ const initialState: AppState = {
 type Action =
   | { type: "CART_ADD_ITEM"; payload: CartItem }
   | { type: "CART_REMOVE_ITEM"; payload: CartItem }
+  | { type: "CART_CLEAR" }
   | { type: "USER_SIGNIN"; payload: UserInfo }
   | { type: "USER_SIGNOUT" }
   | { type: "SAVE_SHIPPING_ADDRESS"; payload: ShippingAddress }
@@ -63,6 +64,9 @@ function reducer(state: AppState, action: Action): AppState {
         ...state,
         cart: { ...state.cart, cartItems: filteredCartItems },
       };
+
+    case "CART_CLEAR":
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
 
     case "USER_SIGNIN":
       // localStorage.setItem("userInfo", JSON.stringify());
