@@ -19,7 +19,7 @@ export const generateToken = (user: User) => {
 
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
-  console.log("authorization", authorization);
+  // console.log("authorization", authorization);
   
   if (authorization) {
     const token = authorization.split(" ")[1]; // Safer way to extract token

@@ -47,6 +47,10 @@ function App() {
             </a> */}
             {userInfo ? (
               <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                {/* <LinkContainer to="/orderhistory">
+                  <NavDropdown.Item>Order History</NavDropdown.Item>
+                </LinkContainer> */}
+                <Link to="/orderhistory">Order Histry</Link>
                 <Link
                   to="#sigout"
                   className="dropdown-item"

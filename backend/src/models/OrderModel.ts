@@ -49,9 +49,9 @@ class PaymentResult {
   public email_address!: string;
 }
 
-modelOptions({ schemaOptions: { timestamps: true } });
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class Order {
-  public _id!: string;
+  public _id?: mongoose.Types.ObjectId;
   @prop()
   public orderItems!: Item[];
   @prop()
