@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { getError } from "../utils";
 import { APIError } from "../types/APIErrors";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 
 export default function PlaceOrder() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function PlaceOrder() {
         totalPrice: cart.totalPrice,
       });
       dispatch({ type: "CART_CLEAR" });
-      localStorage.removeItems("cartItems");
+      localStorage.removeItem("cartItems");
       navigate(`/order/${data.order._id}`);
     } catch (error) {
       toast.error(getError(error as APIError));
@@ -68,11 +68,98 @@ export default function PlaceOrder() {
                 {cart.shippingAddress.postalCode}.{" "}
                 {cart.shippingAddress.country}
               </Card.Text>
-              <Link to="/shipping"></Link>
+              <Link to="/shipping">Edit</Link>
+            </Card.Body>
+          </Card>
+
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Payment</Card.Title>
+              <Card.Text>
+                <strong>Method:</strong>
+                {cart.paymentMethod}
+              </Card.Text>
+              <Link to="/payment">Edit</Link>
+            </Card.Body>
+          </Card>
+
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Items</Card.Title>
+              <ListGroup variant="flush">
+                {cart.cartItems.map((item) => (
+                  <ListGroup.Item key={item._id}>
+                    <Row className="align-items-center">
+                      <Col md={6}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="img-fluid rounded thumbnail"
+                        />
+                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                      </Col>
+                      <Col md={3}>
+                        <span>{item.quantity}</span>
+                      </Col>
+                      <Col md={3}>{item.price}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+              <Link to="/cart">Edit</Link>
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}></Col>
+
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title>Order Summary</Card.Title>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Items</Col>
+                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Shipping</Col>
+                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Tax</Col>
+                    <Col>${cart.taxPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <strong>Order Total</strong>
+                    </Col>
+                    <Col>
+                      <strong>${cart.totalPrice.toFixed(2)}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <div className="d-grid">
+                    <Button
+                      type="button"
+                      onClick={createOrderHandler}
+                      disabled={cart.cartItems.length === 0}
+                    >
+                      Place Order
+                    </Button>
+                  </div>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
     </div>
   );

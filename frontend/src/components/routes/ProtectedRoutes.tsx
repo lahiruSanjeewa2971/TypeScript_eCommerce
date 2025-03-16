@@ -6,7 +6,6 @@ export default function ProtectedRoutes() {
   const {
     state: { userInfo },
   } = useContext(Store);
-  console.log('userInfo :', userInfo)
   if (userInfo) {
     return <Outlet />;
   } else {
